@@ -1,25 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', serif;
+    font-weight: 100;
 }
 
 body {
     width: 100vw;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
 }
 
 .card {
-    width: 20vw;
-    height: 20vw;
+    background-color: #ffffff;
+    font-size: 32px;
     padding: 4vw;
-    border-radius: 2vw;
-    -webkit-box-shadow: 0px 5px 20px 5px rgba(0,0,0,0.3); 
-    box-shadow: 0px 5px 20px 5px rgba(0,0,0,0.3);
+    margin: 4vw;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
+    border: 0;
+    border-radius: 2vw;
+    box-shadow: 0px 4px 20px 5px #c0c0c0, 0px 4px 0px 0px #d0d0d0;
+    transform: translateY(-2px);
+    transition-duration: 0.1s;
+}
+
+.card:hover {
+    background-color: #f8f8f8;
+    box-shadow: 0px 3px 15px 3.75px #c0c0c0, 0px 3px 0px 0px #d0d0d0;
+    transform: translateY(-1px);
+}
+
+.card:active {
+    box-shadow: 0 0 0 0 #c0c0c0, 0 0 0 0 #d0d0d0;
+    transform: translateY(2px);
 }
