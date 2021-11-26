@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Burgertime</title>
+    <link rel="stylesheet" href="/static/css/order.css" type="text/css">
+    <script defer src="/static/js/order.js"></script>
+</head>
+<body>
+    <div class="outset card" id="entrees">
+        <h1 class="large">Entrees</h1>
+        <div class="horizontal-scroll-div inset card" id="entrees-scroll"></div>
+    </div>
+    <div class="outset card" id="sides">
+        <h1 class="large">Sides</h1>
+        <div class="horizontal-scroll-div inset card" id="sides-scroll"></div>
+    </div>
+    <div class="outset card" id="drinks">
+        <h1 class="large">Drinks</h1>
+        <div class="horizontal-scroll-div inset card" id="drinks-scroll"></div>
+    </div>
+    <div class="outset card" id="order-info">
+        <h1>Order</h1>
+        <div class="vertical-scroll-div inset card" id="order-info-scroll"></div>
+    </div>
+    <input type="text" class="large outset card" id="customer-name" placeholder="Name">
+    <input type="text" class="medium outset card" id="special-requests" placeholder="Special Requests">
+    <button class="clickable outset card" id="dine-in-order">
+        <h1>Dine In</h1>
+    </button>
+    <button class="clickable outset card" id="take-out-order">
+        <h1>Take Out</h1>
+    </button>
+    <button class="clickable outset card" id="back">
+        <h1>Back</h1>
+    </button>
+</body>
+</html>
