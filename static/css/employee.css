@@ -11,8 +11,8 @@ body {
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-columns: 1fr 1fr 2fr;
-    grid-template-rows: 2fr 1fr;
+    grid-template-columns: 25vw 25vw 50vw;
+    grid-template-rows: 80vh 10vh 10vh;
 }
 
 .card {
@@ -33,6 +33,10 @@ body {
 
 .medium {
     font-size: 3.75vh;
+}
+
+.small {
+    font-size: 2.5vh;
 }
 
 .outset {
@@ -60,19 +64,24 @@ body {
     transform: translateY(2px);
 }
 
+#clocks {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+}
+
 #clock-in {
     grid-column: 1 / 2;
-    grid-row: 1 / 2;
+    grid-row: 2 / 3;
 }
 
 #clock-out {
     grid-column: 2 / 3;
-    grid-row: 1 / 2;
+    grid-row: 2 / 3;
 }
 
 #employee-id-input {
     grid-column: 1 / 3;
-    grid-row: 2 / 3;
+    grid-row: 3 / 4;
 }
 
 #orders {
@@ -82,11 +91,11 @@ body {
 
 #back {
     grid-column: 3 / 4;
-    grid-row: 2 / 3;
+    grid-row: 2 / 4;
 }
 
 .horizontal-scroll-div {
-    width: 45vw;
+    width: 90%;
     overflow: scroll hidden;
     display: flex;
     flex-direction: row;
@@ -95,13 +104,22 @@ body {
 }
 
 .vertical-scroll-div {
-    width: 45vw;
+    width: 90%;
     overflow: hidden scroll;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     flex-grow: 1;
+}
+
+.hidden-scrollbar {
+    overflow: hidden;
+}
+
+.wrapped {
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .bad-flash {
