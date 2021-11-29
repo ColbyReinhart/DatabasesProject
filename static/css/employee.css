@@ -8,6 +8,7 @@
 }
 
 body {
+    background-color: #eeeeee;
     width: 100vw;
     height: 100vh;
     display: grid;
@@ -27,6 +28,10 @@ body {
     border-radius: 0.5vw;
 }
 
+.left-aligned {
+    align-items: flex-start;
+}
+
 .large {
     font-size: 5vh;
 }
@@ -37,6 +42,10 @@ body {
 
 .small {
     font-size: 2.5vh;
+}
+
+.tiny {
+    font-size: 1.5vh;
 }
 
 .outset {
@@ -65,7 +74,12 @@ body {
 }
 
 #clocks {
-    grid-column: 1 / 3;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+#employees {
+    grid-column: 2 / 3;
     grid-row: 1 / 2;
 }
 

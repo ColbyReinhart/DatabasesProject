@@ -1,4 +1,5 @@
 clocks_scroll = document.querySelector("#clocks-scroll");
+employees_scroll = document.querySelector("#employees-scroll");
 clock_in_button = document.querySelector("#clock-in");
 clock_out_button = document.querySelector("#clock-out");
 employee_id_input = document.querySelector("#employee-id-input");
@@ -12,7 +13,31 @@ let bad_flash = (elem) => {
     }, 1000);
 }
 
-let populate_order_scroll = (scroll, arr) => {
+let populate_employees_scroll = async () => {
+    let employees_res = await fetch("/api/employee_list");
+    let employees = await employees_res.json();
+    for (let employee of employees) {
+        let node = document.createElement("h1");
+        node.classList.add("outset");
+        node.classList.add("card");
+        node.classList.add("left-aligned");
+        let name_node = document.createElement("p");
+        name_node.classList.add("medium");
+        let name_node_text = document.createTextNode(`[${employee.employeeID}] ${employee.employeeName}`);
+        name_node.appendChild(name_node_text);
+        node.appendChild(name_node);
+        let position_node = document.createElement("p");
+        position_node.classList.add("small");
+        let position_node_text = document.createTextNode(`${employee.employeePosition}`);
+        position_node.appendChild(position_node_text);
+        node.appendChild(position_node);
+        employees_scroll.appendChild(node);
+    }
+}
+
+populate_employees_scroll();
+
+let populate_clocks_scroll = (scroll, arr) => {
     while (scroll.firstChild) {
         scroll.removeChild(scroll.firstChild);
     }
@@ -70,7 +95,7 @@ clock_out_button.addEventListener("click", async (e) => {
 let load_clocks = async () => {
     let res = await fetch("/api/clocks");
     let clockTimes = await res.json();
-    populate_order_scroll(clocks_scroll, clockTimes);
+    populate_clocks_scroll(clocks_scroll, clockTimes);
 }
 
 load_clocks();
@@ -104,6 +129,15 @@ let load_orders = async () => {
             item_title.classList.add("card");
             let item_title_text = document.createTextNode(`${item.dishQuantity}x ${item.dishName}`);
             item_title.appendChild(item_title_text);
+            let ingredients_res = await fetch(`/api/ingredients?dish_name=${item.dishName}`);
+            let ingredients = await ingredients_res.json();
+            for (let ingredient of ingredients) {
+                let ingredient_node = document.createElement("p");
+                ingredient_node.classList.add("tiny");
+                let ingredient_text = document.createTextNode(`${ingredient.ingredientQuantity}x ${ingredient.unit != "self" ? ingredient.unit : ""} ${ingredient.inventoryName}`);
+                ingredient_node.appendChild(ingredient_text);
+                item_title.appendChild(ingredient_node);
+            }
             scroll_div.appendChild(item_title);
         }
         let sub_text = document.createTextNode(`${order.orderType}, ${order.specialRequests}`);

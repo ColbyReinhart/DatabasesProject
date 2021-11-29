@@ -8,6 +8,7 @@
 }
 
 body {
+    background-color: #eeeeee;
     width: 100vw;
     height: 100vh;
     display: grid;

@@ -8,11 +8,12 @@
 }
 
 body {
+    background-color: #eeeeee;
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-columns: 3fr 1fr 1fr 1fr;
-    grid-template-rows: 3fr 3fr 1fr 1fr 1fr;
+    grid-template-columns: 50vw 20vw 20vw 10vw;
+    grid-template-rows: 34vh 33vh 11vh 11vh 11vh;
 }
 
 .card {
@@ -58,6 +59,11 @@ body {
 .clickable:active {
     box-shadow: 0 0 0 0 #d0d0d0, 0 0 0 0 #f0f0f0;
     transform: translateY(2px);
+}
+
+.disabled {
+    color: #808080;
+    user-select: none;
 }
 
 #entrees {
@@ -106,7 +112,8 @@ body {
 }
 
 .horizontal-scroll-div {
-    width: 45vw;
+    width: 90%;
+    height: 90%;
     overflow: scroll hidden;
     display: flex;
     flex-direction: row;
@@ -115,7 +122,8 @@ body {
 }
 
 .vertical-scroll-div {
-    width: 45vw;
+    width: 90%;
+    height: 90%;
     overflow: hidden scroll;
     display: flex;
     flex-direction: column;

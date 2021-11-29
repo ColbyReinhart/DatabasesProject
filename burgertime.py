@@ -49,7 +49,7 @@ def api_dishes():
     connection = mysql.connector.connect(host="burgertime.ejrobotics.com", database="burgertime", user="jt", password="Bungertime1")
     if connection.is_connected():
         cursor = connection.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM dishes WHERE canMakeDish(dishName);")
+        cursor.execute("SELECT *, canMakeDish(dishName) AS canMake FROM dishes;")
         dishes = cursor.fetchall()
     return jsonify(dishes)
 
@@ -74,6 +74,25 @@ def api_clocks():
         cursor.execute("SELECT employeeName, clockTime, clockType FROM staff NATURAL JOIN timeclock ORDER BY clockTime DESC;")
         clocks = cursor.fetchall()
     return jsonify(clocks)
+
+@app.route("/api/ingredients", methods=["GET"])
+def api_ingredients():
+    dish_name = request.args.get("dish_name")
+    connection = mysql.connector.connect(host="burgertime.ejrobotics.com", database="burgertime", user="jt", password="Bungertime1")
+    if connection.is_connected():
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("SELECT inventoryName, ingredientQuantity, unit FROM dishes NATURAL JOIN dishIngredient NATURAL JOIN inventory WHERE dishName=%s;", (dish_name,))
+        ingredients = cursor.fetchall()
+    return jsonify(ingredients)
+
+@app.route("/api/employee_list", methods=["GET"])
+def api_employee_list():
+    connection = mysql.connector.connect(host="burgertime.ejrobotics.com", database="burgertime", user="jt", password="Bungertime1")
+    if connection.is_connected():
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM staffNames;")
+        employees = cursor.fetchall()
+    return jsonify(employees)
 
 @app.route("/api/add_dish", methods=["POST"])
 def api_add_dish():

@@ -42,7 +42,6 @@ let populate_scroll = (scroll, arr) => {
     for (let elem of arr) {
         let node = document.createElement("h1");
         node.classList.add("medium");
-        node.classList.add("clickable");
         node.classList.add("outset");
         node.classList.add("card");
         let name = document.createTextNode(`${elem.dishName}`);
@@ -51,15 +50,20 @@ let populate_scroll = (scroll, arr) => {
         node.appendChild(name);
         node.appendChild(br);
         node.appendChild(price);
-        node.addEventListener("click", (e) => {
-            if (order.items[elem.dishName] === undefined) {
-                order.items[elem.dishName] = {quantity: 1, price: elem.price};
-            } else {
-                order.items[elem.dishName].quantity++;
-            }
-            order.price += parseFloat(elem.price);
-            update_order();
-        });
+        if (elem.canMake) {
+            node.classList.add("clickable");
+            node.addEventListener("click", (e) => {
+                if (order.items[elem.dishName] === undefined) {
+                    order.items[elem.dishName] = {quantity: 1, price: elem.price};
+                } else {
+                    order.items[elem.dishName].quantity++;
+                }
+                order.price += parseFloat(elem.price);
+                update_order();
+            });
+        } else {
+            node.classList.add("disabled");
+        }
         scroll.appendChild(node);
     }
 }
@@ -156,4 +160,4 @@ take_out_order_button.addEventListener("click", async (e) => {
 
 back_button.addEventListener("click", (e) => {
     window.location.href = "/";
-})
+});
