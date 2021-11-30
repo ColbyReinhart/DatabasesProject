@@ -28,6 +28,11 @@ body {
     border-radius: 0.5vw;
 }
 
+.item {
+	flex-direction: row;
+	display: flex;
+}
+
 .large {
     font-size: 5vh;
 }

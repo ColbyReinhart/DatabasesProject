@@ -7,6 +7,7 @@ let special_requests_input = document.querySelector("#special-requests")
 let dine_in_order_button = document.querySelector("#dine-in-order");
 let take_out_order_button = document.querySelector("#take-out-order");
 let back_button = document.querySelector("#back");
+let order_total = document.querySelector("#order-total");
 
 let order;
 let dishes, entrees, sides, drinks;
@@ -28,14 +29,37 @@ let update_order = () => {
         order_info_scroll.removeChild(order_info_scroll.firstChild);
     }
     for (let [item, info] of Object.entries(order.items)) {
+		let itemDiv = document.createElement("div");
+        itemDiv.classList.add("item");
         let node = document.createElement("h1");
         node.classList.add("medium");
         node.classList.add("outset");
         node.classList.add("card");
         let text = document.createTextNode(`${info.quantity}x ${item} $${info.price}`);
         node.appendChild(text);
-        order_info_scroll.appendChild(node);
+		
+		let sub = document.createElement("h1");
+		sub.classList.add("medium");
+        sub.classList.add("outset");
+        sub.classList.add("card");
+		let minus = document.createTextNode("-");
+		sub.appendChild(minus);
+		itemDiv.appendChild(node);
+		itemDiv.appendChild(sub);
+        order_info_scroll.appendChild(itemDiv);
+		
+		
+        sub.classList.add("clickable");
+        sub.addEventListener("click", (e) => {
+			order.price -= parseFloat(info.price);
+			order.items[item].quantity--;
+			if (order.items[item].quantity === 0) {
+				delete order.items[item];
+			}
+			update_order();
+		});
     }
+	order_total.innerHTML = `$${order.price.toFixed(2)}`;
 }
 
 let populate_scroll = (scroll, arr) => {
