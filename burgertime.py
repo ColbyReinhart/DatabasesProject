@@ -40,9 +40,7 @@ def api_clock():
         vals = (res_json["employeeID"], res_json["clockType"])
         cursor.execute("INSERT INTO timeclock VALUES (%s, NOW(), %s);", vals)
         connection.commit()
-        cursor.execute("SELECT MAX(orderID) AS orderID FROM customerOrder;")
-        row = cursor.fetchone()
-    return jsonify(row)
+    return "200"
 
 @app.route("/api/dishes")
 def api_dishes():
@@ -74,6 +72,26 @@ def api_clocks():
         cursor.execute("SELECT employeeName, clockTime, clockType FROM staff NATURAL JOIN timeclock ORDER BY clockTime DESC;")
         clocks = cursor.fetchall()
     return jsonify(clocks)
+
+@app.route("/api/inventory", methods=["GET", "POST"])
+def api_inventory():
+    if request.method == "GET":
+        connection = mysql.connector.connect(host="burgertime.ejrobotics.com", database="burgertime", user="jt", password="Bungertime1")
+        if connection.is_connected():
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute("SELECT inventoryName FROM inventory;")
+            inventory = cursor.fetchall()
+        return jsonify(inventory)
+    
+    if request.method == "POST":
+        res_json = request.json
+        vals = (res_json["deltaQuantity"], res_json["inventoryName"])
+        connection = mysql.connector.connect(host="burgertime.ejrobotics.com", database="burgertime", user="jt", password="Bungertime1")
+        if connection.is_connected():
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute("UPDATE inventory SET quantity=quantity+%s WHERE inventoryName=%s;", vals)
+            connection.commit()
+        return "200"
 
 @app.route("/api/ingredients", methods=["GET"])
 def api_ingredients():
@@ -122,6 +140,19 @@ def api_orders():
             cursor.execute("SELECT dishQuantity, dishName, dishType FROM orderItems NATURAL JOIN dishes WHERE orderID=%s ORDER BY dishType;", (order_id,))
             items = cursor.fetchall()
             return jsonify(items)
-        
+
+@app.route("/api/remove_order", methods=["POST"])
+def api_remove_order():
+    order_id = request.json.get("order_id")
+    print(order_id)
+    connection = mysql.connector.connect(host="burgertime.ejrobotics.com", database="burgertime", user="jt", password="Bungertime1")
+    if connection.is_connected():
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("DELETE FROM orderItems WHERE orderID=%s;", (order_id,))
+        connection.commit()
+        cursor.execute("DELETE FROM customerOrder WHERE orderID=%s;", (order_id,))
+        connection.commit()
+        return "200"
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

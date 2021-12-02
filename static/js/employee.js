@@ -1,10 +1,13 @@
-clocks_scroll = document.querySelector("#clocks-scroll");
-employees_scroll = document.querySelector("#employees-scroll");
-clock_in_button = document.querySelector("#clock-in");
-clock_out_button = document.querySelector("#clock-out");
-employee_id_input = document.querySelector("#employee-id-input");
-orders_scroll = document.querySelector("#orders-scroll");
+let clocks_scroll = document.querySelector("#clocks-scroll");
+let employees_scroll = document.querySelector("#employees-scroll");
+let clock_in_button = document.querySelector("#clock-in");
+let clock_out_button = document.querySelector("#clock-out");
+let employee_id_input = document.querySelector("#employee-id-input");
+let orders_scroll = document.querySelector("#orders-scroll");
 let back_button = document.querySelector("#back");
+let inventory_item_select = document.querySelector("#inventory-item");
+let inventory_item_delta_input = document.querySelector("#delta-quantity");
+let inventory_add_button = document.querySelector("#add-button");
 
 let bad_flash = (elem) => {
     elem.classList.add("bad-flash");
@@ -142,11 +145,60 @@ let load_orders = async () => {
         }
         let sub_text = document.createTextNode(`${order.orderType}, ${order.specialRequests}`);
         title.appendChild(sub_text);
+        let remove_button = document.createElement("h1");
+        remove_button.classList.add("small");
+        remove_button.classList.add("clickable");
+        remove_button.classList.add("outset");
+        remove_button.classList.add("card");
+        remove_button.appendChild(document.createTextNode("Remove"));
+        console.log(order.orderID);
+        remove_button.addEventListener("click", async () => {
+            await fetch("/api/remove_order", {
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    order_id: order.orderID
+                })
+            });
+            orders_scroll.removeChild(title);
+        });
+        title.appendChild(remove_button);
         orders_scroll.appendChild(title);
     }
 }
 
 load_orders();
+
+let load_inventory = async () => {
+    let inventory_res = await fetch("/api/inventory");
+    inventory = await inventory_res.json();
+    for (let item of inventory) {
+        let option = document.createElement("option");
+        option.setAttribute("value", item.inventoryName)
+        option.appendChild(document.createTextNode(`${item.inventoryName}`));
+        inventory_item_select.appendChild(option);
+    }
+}
+
+load_inventory();
+
+inventory_add_button.addEventListener("click", async () => {
+    let res = await fetch("/api/inventory", {
+        method: 'POST',
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            deltaQuantity: inventory_item_delta_input.value,
+            inventoryName: inventory_item_select.value
+        })
+    });
+    inventory_item_delta_input.value = 0;
+});
 
 back_button.addEventListener("click", (e) => {
     window.location.href = "/";

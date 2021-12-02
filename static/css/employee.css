@@ -12,7 +12,7 @@ body {
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-columns: 25vw 25vw 50vw;
+    grid-template-columns: 25vw 25vw 25vw 25vw;
     grid-template-rows: 80vh 10vh 10vh;
 }
 
@@ -99,11 +99,16 @@ body {
 }
 
 #orders {
-    grid-column: 3 / 4;
+    grid-column: 3 / 5;
     grid-row: 1 / 2;
 }
 
 #back {
+    grid-column: 4 / 5;
+    grid-row: 2 / 4;
+}
+
+#add-inventory {
     grid-column: 3 / 4;
     grid-row: 2 / 4;
 }
